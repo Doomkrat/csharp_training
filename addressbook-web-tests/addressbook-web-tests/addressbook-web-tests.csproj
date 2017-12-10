@@ -58,7 +58,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountData.cs" />
     <Compile Include="Figure.cs" />
+    <Compile Include="GroupData.cs" />
     <Compile Include="Sircle.cs" />
     <Compile Include="Square.cs" />
     <Compile Include="GroupCreationTests.cs" />
