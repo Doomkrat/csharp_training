@@ -24,6 +24,13 @@ namespace WebAddressbookTests
             ReturnToGroupsPage();
             return this;
         }
+        public void Remove(int v)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(1);
+            RemoveGroup();
+            ReturnToGroupsPage();
+        }
 
         public GroupHelper InitGroupCreation()
         {
