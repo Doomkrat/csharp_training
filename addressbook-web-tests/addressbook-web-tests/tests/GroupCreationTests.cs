@@ -9,7 +9,7 @@ namespace WebAddressbookTests
 
 {
     [TestFixture]
-    public class GroupCreationTests : TestBase
+    public class GroupCreationTests : AuthTestBase
     {
         
 
@@ -20,7 +20,7 @@ namespace WebAddressbookTests
             group.Header = "test header";
             group.Footer = "test footer";
             app.Groups.Create(group);
-            app.Auth.Logout();
+           // app.Auth.Logout();
         }
         [Test]
         public void EmptyGroupCreationTest()
@@ -29,7 +29,7 @@ namespace WebAddressbookTests
             group.Header = " ";
             group.Footer = " ";
             app.Groups.Create(group);
-            app.Auth.Logout();
+           // app.Auth.Logout();
         }
     }
 }
