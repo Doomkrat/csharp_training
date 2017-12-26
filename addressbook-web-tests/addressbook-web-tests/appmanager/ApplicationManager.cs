@@ -10,7 +10,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace WebAddressbookTests
 {
-  public  class ApplicationManager
+  public  class ApplicationManager : TestBase
     {
         protected IWebDriver driver;
         public string baseURL;
@@ -52,8 +52,10 @@ namespace WebAddressbookTests
             if (! app.IsValueCreated)
             {
                 ApplicationManager newInstance = new ApplicationManager();
+                newInstance.Navigator.GoToHomePage();
                 app.Value = newInstance;
-               
+                
+
 
             }
             return app.Value;
