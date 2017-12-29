@@ -25,10 +25,14 @@ namespace WebAddressbookTests
             return this;
         }
 
-        internal GroupHelper Modify(int v, GroupData newData)
+        internal GroupHelper Modify(GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
-            SelectGroup(v);
+            if (!IsElementPresent(By.XPath("(//input[@name='selected[]'])[1]")))
+            {
+                Create(newData);
+            }
+            SelectGroup();
             InitGroupModification();
             FillGroupForm(newData);
             SubmitGroupModification();
@@ -38,10 +42,17 @@ namespace WebAddressbookTests
 
         
 
-        public GroupHelper Remove(int v)
+        public GroupHelper Remove()
         {
             manager.Navigator.GoToGroupsPage();
-            SelectGroup(v);
+            if (!IsElementPresent(By.XPath("(//input[@name='selected[]'])[2]")))
+            {
+                GroupData group = new GroupData("aaa");
+                group.Header = "test header";
+                group.Footer = "test footer";
+                Create(group);
+            }
+            SelectGroup();
             RemoveGroup();
             ReturnToGroupsPage();
             return this;
@@ -73,9 +84,9 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper SelectGroup(int index)
+        public GroupHelper SelectGroup()
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[1]")).Click();
             return this;
         }
         public GroupHelper ReturnToGroupsPage()
