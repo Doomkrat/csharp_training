@@ -20,7 +20,6 @@ namespace WebAddressbookTests
             group.Header = "test header";
             group.Footer = "test footer";
             app.Groups.Create(group);
-           // app.Auth.Logout();
         }
         [Test]
         public void EmptyGroupCreationTest()
@@ -29,7 +28,6 @@ namespace WebAddressbookTests
             group.Header = " ";
             group.Footer = " ";
             app.Groups.Create(group);
-           // app.Auth.Logout();
         }
     }
 }

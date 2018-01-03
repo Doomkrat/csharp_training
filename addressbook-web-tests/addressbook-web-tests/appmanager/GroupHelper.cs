@@ -28,10 +28,6 @@ namespace WebAddressbookTests
         internal GroupHelper Modify(GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
-            if (!IsElementPresent(By.XPath("(//input[@name='selected[]'])[1]")))
-            {
-                Create(newData);
-            }
             SelectGroup();
             InitGroupModification();
             FillGroupForm(newData);
@@ -45,13 +41,6 @@ namespace WebAddressbookTests
         public GroupHelper Remove()
         {
             manager.Navigator.GoToGroupsPage();
-            if (!IsElementPresent(By.XPath("(//input[@name='selected[]'])[2]")))
-            {
-                GroupData group = new GroupData("aaa");
-                group.Header = "test header";
-                group.Footer = "test footer";
-                Create(group);
-            }
             SelectGroup();
             RemoveGroup();
             ReturnToGroupsPage();

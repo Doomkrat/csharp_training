@@ -66,7 +66,7 @@ namespace WebAddressbookTests
             {
                 return driver;
             }
-            }
+        }
 
        
         public LoginHelper Auth

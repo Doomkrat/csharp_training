@@ -25,12 +25,6 @@ namespace WebAddressbookTests
 
         internal ContactHelper Modify(ContactData newcontact)
         {
-            if (!IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[2]/td/input")))
-            {
-                ContactData name = new ContactData("Mikki");
-                name.Lastname = "Mouse";
-                CreateContact(name);
-            }
             SelectContact();
             InitContactModification();
             FillContactForm(newcontact);
@@ -65,33 +59,26 @@ namespace WebAddressbookTests
 
         internal ContactHelper Remove()
         {
-            if (!IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[2]/td/input")))
-            {
-                ContactData name = new ContactData("Mikki");
-                name.Lastname = "Mouse";
-                CreateContact(name);
-            }
             SelectContact();
             RemoveContact();
             manager.Navigator.GoToHomePage();
             return this;
         }
 
-        private ContactHelper RemoveContact()
+        public ContactHelper RemoveContact()
         {
-            
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             driver.SwitchTo().Alert().Accept();
             return this;
         }
 
-        private ContactHelper SelectContact()
+        public ContactHelper SelectContact()
         {
             Thread.Sleep(3000);
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[2]/td/input")).Click();
             return this;
         }
-        private ContactHelper CreateContact( ContactData newcontact)
+        public ContactHelper CreateContact( ContactData newcontact)
         {
             InitContactCreation();
             ContactData contact = new ContactData("Vasya");
