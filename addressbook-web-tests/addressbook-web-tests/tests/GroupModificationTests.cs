@@ -16,7 +16,8 @@ namespace WebAddressbookTests.tests
         [Test]
         public void GroupMofifcationTest()
         {
-            if (!app.Groups.IsElementPresent(By.XPath("(//input[@name='selected[]'])[2]")))
+            app.Navigator.GoToGroupsPage();
+            if (!app.Groups.IsElementPresent(By.XPath("(//input[@name='selected[]'])[1]")))
             {
                 GroupData group = new GroupData("aaa");
                 group.Header = "test header";

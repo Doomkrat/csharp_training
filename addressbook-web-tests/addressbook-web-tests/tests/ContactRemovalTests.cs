@@ -20,8 +20,11 @@ namespace WebAddressbookTests.tests
                 name.Lastname = "Mouse";
                 app.Contacts.CreateContact(name);
             }
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.Remove();
-
+            List<ContactData> newContacts = app.Contacts.GetContactList();
+            oldContacts.RemoveAt(0);
+            Assert.AreEqual(oldContacts, newContacts);
         }
     }
 }

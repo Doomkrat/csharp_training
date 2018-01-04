@@ -4,6 +4,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using System.Collections.Generic;
+
 
 
 namespace WebAddressbookTests
@@ -14,15 +16,19 @@ namespace WebAddressbookTests
         [Test]
         public void GroupRemovalTest()
         {
-            if (!app.Groups.IsElementPresent(By.XPath("(//input[@name='selected[]'])[2]")))
+            app.Navigator.GoToGroupsPage();
+            if (!app.Groups.IsElementPresent(By.XPath("(//input[@name='selected[]'])[1]")))
             {
                 GroupData group = new GroupData("aaa");
                 group.Header = "test header";
                 group.Footer = "test footer";
                 app.Groups.Create(group);
             }
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
             app.Groups.Remove();
-            
+            List<GroupData> newGroups = app.Groups.GetGroupList();
+            oldGroups.RemoveAt(0);
+            Assert.AreEqual(oldGroups, newGroups);
         }
     }
 }
