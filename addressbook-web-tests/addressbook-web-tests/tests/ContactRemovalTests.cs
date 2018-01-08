@@ -16,8 +16,11 @@ namespace WebAddressbookTests.tests
         {
             if (!app.Contacts.IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[2]/td/input")))
             {
-                ContactData name = new ContactData("Mikki");
-                name.Lastname = "Mouse";
+                ContactData name = new ContactData()
+                {
+                    FirstName = "Mikki",
+                    LastName = "Mouse"
+                };
                 app.Contacts.CreateContact(name);
             }
             List<ContactData> oldContacts = app.Contacts.GetContactList();

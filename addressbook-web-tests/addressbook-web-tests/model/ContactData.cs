@@ -6,36 +6,35 @@ using System.Threading.Tasks;
 
 namespace WebAddressbookTests
 {
-   public class ContactData: IEquatable<ContactData>
+    public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        private string firstname;
-        private string lastname;
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
-        public ContactData (string firstname)
+        public ContactData()
         {
-            this.firstname = firstname;
         }
-        public string Firstname
+
+        public ContactData(string lastname, string firstname)
         {
-            get
-            {
-                return firstname;
-            }
-            set
-            {
-                firstname = value;
-            }
+            LastName = lastname;
+            FirstName = firstname;
         }
-        public string Lastname
+
+        public int CompareTo(ContactData other)
         {
-            get
+            if (Object.ReferenceEquals(other, null))
             {
-                return lastname;
+                return 1;
             }
-            set
+            if (Object.Equals(this.LastName, other.LastName))
             {
-                lastname = value;
+                return FirstName.CompareTo(other.FirstName);
             }
+
+            return LastName.CompareTo(other.LastName);
+
+
         }
 
         public bool Equals(ContactData other)
@@ -48,8 +47,16 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return (Firstname == other.Firstname)&&(Lastname == other.Lastname);
-            
+            return FirstName == other.FirstName & LastName == other.LastName;
+
+        }
+        public override int GetHashCode()
+        {
+            return (FirstName + LastName).GetHashCode();
+        }
+        public override string ToString()
+        {
+            return "firstname = <" + FirstName + ">; lastname = <" + LastName + ">";
         }
     }
 }

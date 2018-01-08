@@ -18,12 +18,19 @@ namespace WebAddressbookTests
         {
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.InitContactCreation();
-            ContactData contact = new ContactData("Vasya");
-            contact.Lastname = "Pupkin";
+            ContactData contact = new ContactData()
+            {
+                FirstName = "Vasya",
+                LastName = "Pupkin"
+        };
+            
             app.Contacts.FillContactForm(contact);
             app.Contacts.SubmitContactCreation();
             List<ContactData> newContacts = app.Contacts.GetContactList();
-            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
 
         }
     }

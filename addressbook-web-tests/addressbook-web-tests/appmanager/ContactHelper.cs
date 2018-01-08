@@ -47,8 +47,8 @@ namespace WebAddressbookTests
 
         public void FillContactForm(ContactData contact)
         {
-            Type(By.Name("firstname"), contact.Firstname);
-            Type(By.Name("lastname"), contact.Lastname);
+            Type(By.Name("firstname"), contact.FirstName);
+            Type(By.Name("lastname"), contact.LastName);
             
         }
         
@@ -81,8 +81,11 @@ namespace WebAddressbookTests
         public ContactHelper CreateContact( ContactData newcontact)
         {
             InitContactCreation();
-            ContactData contact = new ContactData("Vasya");
-            contact.Lastname = "Pupkin";
+            ContactData contact = new ContactData()
+            {
+                FirstName = "Vasya",
+                LastName = "Pupkin"
+            };
             FillContactForm(contact);
             SubmitContactCreation();
             return this;
@@ -94,7 +97,10 @@ namespace WebAddressbookTests
             ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name='entry']"));
             foreach (IWebElement element in elements)
             {
-                contacts.Add(new ContactData(element.Text));
+                string lastName = element.FindElement(By.XPath("td[3]")).Text;
+                string firstName = element.FindElement(By.XPath("td[2]")).Text;
+
+                contacts.Add(new ContactData(firstName,lastName));
             }
             return contacts;
         }
