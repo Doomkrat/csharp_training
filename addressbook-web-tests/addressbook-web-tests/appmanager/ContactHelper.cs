@@ -11,7 +11,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace WebAddressbookTests
 {
-   public class ContactHelper : HelperBase
+    public class ContactHelper : HelperBase
     {
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
@@ -21,6 +21,7 @@ namespace WebAddressbookTests
         public void SubmitContactCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
+            contactCache = null;
         }
 
         internal ContactHelper Modify(ContactData newcontact)
@@ -36,6 +37,7 @@ namespace WebAddressbookTests
         private ContactHelper SubmitContactModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -49,9 +51,9 @@ namespace WebAddressbookTests
         {
             Type(By.Name("firstname"), contact.FirstName);
             Type(By.Name("lastname"), contact.LastName);
-            
+
         }
-        
+
         public void InitContactCreation()
         {
             driver.FindElement(By.LinkText("add new")).Click();
@@ -69,6 +71,7 @@ namespace WebAddressbookTests
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             driver.SwitchTo().Alert().Accept();
+            contactCache = null;
             return this;
         }
 
@@ -78,7 +81,8 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[2]/td/input")).Click();
             return this;
         }
-        public ContactHelper CreateContact( ContactData newcontact)
+
+        public ContactHelper CreateContact(ContactData newcontact)
         {
             InitContactCreation();
             ContactData contact = new ContactData()
@@ -90,19 +94,31 @@ namespace WebAddressbookTests
             SubmitContactCreation();
             return this;
         }
+
+        public int GetContactCount()
+        {
+            return driver.FindElements(By.CssSelector("tr[name='entry']")).Count;
+        }
+
+        private List<ContactData> contactCache = null;
+
         public List<ContactData> GetContactList()
         {
-            List<ContactData> contacts = new List<ContactData>();
-            manager.Navigator.GoToHomePage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name='entry']"));
-            foreach (IWebElement element in elements)
+            if (contactCache == null)
             {
-                string lastName = element.FindElement(By.XPath("td[3]")).Text;
-                string firstName = element.FindElement(By.XPath("td[2]")).Text;
+                contactCache = new List<ContactData>();
+                manager.Navigator.GoToHomePage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name='entry']"));
+                foreach (IWebElement element in elements)
+                {
+                    string lastName = element.FindElement(By.XPath("td[3]")).Text;
+                    string firstName = element.FindElement(By.XPath("td[2]")).Text;
 
-                contacts.Add(new ContactData(firstName,lastName));
+                    contactCache.Add(new ContactData(firstName, lastName));
+                }
             }
-            return contacts;
+            return new List<ContactData>(contactCache);
         }
     }
+
 }
