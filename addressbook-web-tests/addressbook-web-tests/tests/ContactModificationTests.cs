@@ -23,20 +23,28 @@ namespace WebAddressbookTests.tests
                 };
                 app.Contacts.CreateContact(name);
             }
-            ContactData newcontact
-                = new ContactData()
+            ContactData newData = new ContactData()
             {
                 FirstName = "Jonny",
                 LastName = "Mnemonik"
             };
             List<ContactData> oldContacts = app.Contacts.GetContactList();
-            app.Contacts.Modify(newcontact);
+            ContactData oldData = oldContacts[0];
+            app.Contacts.Modify(newData);
             Assert.AreEqual(oldContacts.Count, app.Contacts.GetContactCount());
             List<ContactData> newContacts = app.Contacts.GetContactList();
-            oldContacts[0] = newcontact;
+            oldContacts[0] = newData;
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+
+            foreach(ContactData contact in newContacts)
+            {
+                if (contact.Id == oldData.Id)
+                {
+                    Assert.AreEqual(newData,contact);
+                }
+            }
 
         }
 
