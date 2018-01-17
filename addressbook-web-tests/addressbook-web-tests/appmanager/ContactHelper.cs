@@ -16,6 +16,24 @@ namespace WebAddressbookTests
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
+        public ContactHelper OpenDetailForm(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[6]
+                .FindElement(By.TagName("a")).Click();
+            return this;
+        }
+
+        public ContactData GetContactInfoFromDetailForm(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            OpenDetailForm(index);
+            string contactInfo = driver.FindElement(By.Id("content")).Text;
+            return new ContactData("", "")
+            {
+                ContactInfo = contactInfo
+            };
+        }
 
         public ContactData GetContactInformationFromTable(int index)
         {
@@ -31,7 +49,7 @@ namespace WebAddressbookTests
                 Address = address,
                 AllPhones = allPhones,
                 AllEmails = allEmails,
-          };
+            };
         }
 
         public ContactData GetContactInformationFromEditForm(int index)
@@ -50,7 +68,7 @@ namespace WebAddressbookTests
             string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
             string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
 
-           return new ContactData(firstName, lastName)
+            return new ContactData(firstName, lastName)
             {
                 Address = address,
                 HomePhone = homePhone,
@@ -60,7 +78,7 @@ namespace WebAddressbookTests
                 Email2 = email2,
                 Email3 = email3
             };
-         
+
         }
 
         public void SubmitContactCreation()

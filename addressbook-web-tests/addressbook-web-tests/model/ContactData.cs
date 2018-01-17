@@ -8,6 +8,8 @@ namespace WebAddressbookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
+        public string contactInfo;
+
         public string allPhones;
 
         public string allEmails;
@@ -58,7 +60,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (InsertNewLine(Email) +InsertNewLine(Email2)  +InsertNewLine(Email3)).Trim();
+                    return (EndStringInsert(Email) + EndStringInsert(Email2)  + EndStringInsert(Email3)).Trim();
                 }
             }
             set
@@ -66,14 +68,9 @@ namespace WebAddressbookTests
                 allEmails = value;
             }
         }
-        private string InsertNewLine(string email)
-        {
-            if (email == null || email == "")
-            {
-                return "";
-            }
-            return email + "\r\n";
-        }
+
+        
+       
 
         private string CleanUp(string phone)
         {
@@ -85,14 +82,65 @@ namespace WebAddressbookTests
         }
 
 
+        private string GetNameFull(string firstname, string lastname)
+        {
+            string bufer = "";
+            if (firstname != null && firstname != "")
+            {
+                bufer = bufer + FirstName + " ";
+            }
+            if (lastname != null && lastname != "")
+            {
+                bufer = bufer + LastName + " ";
+            }
+            return bufer.Trim();
+        }
+
+        private string GetPhoneList(string homePhone, string mobilePhone, string workPhone)
+        {
+            string bufer = "";
+            if (homePhone != null && homePhone != "")
+            {
+                bufer = bufer + "H: " + EndStringInsert(HomePhone);
+            }
+            if (mobilePhone != null && mobilePhone != "")
+            {
+                bufer = bufer + "M: " + EndStringInsert(MobilePhone);
+            }
+            if (workPhone != null && workPhone != "")
+            {
+                bufer = bufer + "W: " + EndStringInsert(WorkPhone);
+            }
+            return bufer.Trim();
+        }
+
+        private string GetEmailList(string email, string email2, string email3)
+        {
+            string bufer = "";
+            if (email != null && email != "")
+            {
+                bufer = bufer + EndStringInsert(email);
+            }
+            if (email2 != null && email2 != "")
+            {
+                bufer = bufer + EndStringInsert(email2);
+            }
+            if (email3 != null && email3 != "")
+            {
+                bufer = bufer + EndStringInsert(email3);
+            }
+            return bufer.Trim();
+        }
+
+
         public ContactData()
         {
         }
 
-        public ContactData(string lastname, string firstname)
+        public ContactData(string firstname, string lastname)
         {
-            LastName = lastname;
             FirstName = firstname;
+            LastName = lastname;
         }
 
         public int CompareTo(ContactData other)
@@ -132,5 +180,44 @@ namespace WebAddressbookTests
         {
             return "firstname = <" + FirstName + ">; lastname = <" + LastName + ">";
         }
+        private string EndStringInsert(string entry)
+        {
+            if (entry == null || entry == "")
+            {
+                return "";
+            }
+            return entry + "\r\n";
+        }
+
+
+     
+        private string ContactInfoList(string firstname, string lastname, string address)
+        {
+            return EndStringInsert(GetNameFull(firstname, lastname))
+                + EndStringInsert(address).Trim();
+        }
+
+        public string ContactInfo
+        {
+            get
+            {
+                if (contactInfo != null)
+                {
+                    return contactInfo;
+                }
+                else
+                {
+                    return (
+                        EndStringInsert(EndStringInsert(ContactInfoList(FirstName, LastName, Address)))
+                        + EndStringInsert(EndStringInsert(GetPhoneList(HomePhone, MobilePhone, WorkPhone)))
+                        + EndStringInsert(EndStringInsert(GetEmailList(Email, Email2, Email3)))).Trim();
+                }
+            }
+            set
+            {
+                contactInfo = value;
+            }
+        }
+
     }
 }
