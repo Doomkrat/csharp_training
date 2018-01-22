@@ -12,18 +12,25 @@ namespace WebAddressbookTests
     [TestFixture]
     public class ContactCreationTests : AuthTestBase
     {
+        public static IEnumerable<ContactData> RandomGroupDataProvider()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            for (int i = 0; i < 5; i++)
+            {
+                contacts.Add(new ContactData()
+                {
+                    FirstName = GenerateRandomString(20),
+                    LastName = GenerateRandomString(20)
+                });
+            }
+            return contacts;
+        }
 
-        [Test]
-        public void ContactCreationTest()
+        [Test,TestCaseSource("RandomGroupDataProvider")]
+        public void ContactCreationTest(ContactData contact)
         {
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.InitContactCreation();
-            ContactData contact = new ContactData()
-            {
-                FirstName = "Vasya",
-                LastName = "Pupkin"
-        };
-            
             app.Contacts.FillContactForm(contact);
             app.Contacts.SubmitContactCreation();
             app.Navigator.GoToHomePage();

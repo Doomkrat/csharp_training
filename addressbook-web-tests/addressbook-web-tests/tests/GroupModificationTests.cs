@@ -12,6 +12,7 @@ namespace WebAddressbookTests.tests
     [TestFixture]
    public class GroupModificationTests : AuthTestBase
     {
+     
 
         [Test]
         public void GroupMofifcationTest()
@@ -19,14 +20,14 @@ namespace WebAddressbookTests.tests
             app.Navigator.GoToGroupsPage();
             if (!app.Groups.IsElementPresent(By.XPath("(//input[@name='selected[]'])[1]")))
             {
-                GroupData group = new GroupData("aaa");
-                group.Header = "test header";
-                group.Footer = "test footer";
+                GroupData group = new GroupData(GenerateRandomString(10));
+                group.Header = GenerateRandomString(10);
+                group.Footer = GenerateRandomString(10);
                 app.Groups.Create(group);
             }
-            GroupData newData = new GroupData("bbb");
-            newData.Header = null;
-            newData.Footer = null;
+            GroupData newData = new GroupData(GenerateRandomString(10));
+            newData.Header = GenerateRandomString(10);
+            newData.Footer = GenerateRandomString(10);
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             GroupData oldData = oldGroups[0];
 

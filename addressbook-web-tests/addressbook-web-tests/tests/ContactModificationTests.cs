@@ -18,8 +18,8 @@ namespace WebAddressbookTests.tests
             {
                 ContactData name = new ContactData()
                 {
-                    FirstName = "Mikki",
-                    LastName = "Mouse"
+                    FirstName = GenerateRandomString(20),
+                    LastName = GenerateRandomString(20)
                 };
                 app.Contacts.CreateContact(name);
             }
