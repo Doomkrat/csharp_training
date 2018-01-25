@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfGroupData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GroupData>
+    <Name>&amp;</Name>
+    <Header>OL#Y;=C</Header>
+    <Footer>10M</Footer>
+  </GroupData>
+  <GroupData>
+    <Name>G.</Name>
+    <Header>+&amp;2*RY</Header>
+    <Footer />
+  </GroupData>
+</ArrayOfGroupData>
