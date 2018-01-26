@@ -4,8 +4,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
 using System.Collections.Generic;
-
-
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace WebAddressbookTests
 {
@@ -26,9 +27,36 @@ namespace WebAddressbookTests
             return contacts;
         }
 
-       
 
-        [Test,TestCaseSource("RandomContactDataProvider")]
+        public static IEnumerable<ContactData> ContactDataFromCsvFile()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            string[] lines = File.ReadAllLines(@"contacts.csv");
+            foreach (string l in lines)
+            {
+                string[] parts = l.Split(',');
+                contacts.Add(new ContactData()
+                {
+                    FirstName = parts[0],
+                    LastName = parts[1],
+                    MobilePhone = parts[2],
+                    Address = parts[3]
+                });
+            }
+            return contacts;
+        }
+        public static IEnumerable<ContactData> ContactDataFromXmlFile()
+        {
+            return (List<ContactData>) //приведение типа
+                new XmlSerializer(typeof(List<ContactData>))//чтение данных типа List<GroupData>
+                .Deserialize(new StreamReader(@"contacts.xml"));//из указаного файла
+
+        }
+
+
+
+
+        [Test,TestCaseSource("ContactDataFromXmlFile")]
         public void ContactCreationTest(ContactData contact)
         {
             List<ContactData> oldContacts = app.Contacts.GetContactList();
