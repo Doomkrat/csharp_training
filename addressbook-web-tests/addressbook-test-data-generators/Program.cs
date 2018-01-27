@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebAddressbookTests;
 using System.Xml;
+using Newtonsoft.Json;
 using System.Xml.Serialization;
 
 namespace addressbook_test_data_generators
@@ -14,9 +15,8 @@ namespace addressbook_test_data_generators
     {
         static void Main(string[] args)
         {
-            int count = Convert.ToInt32(args[0]);//amount of the test data which we want to generate
-            StreamWriter writer = new StreamWriter(args[1]);/*creating new instance "writer" with an argument 
-            as name of the file which will be defined when we will launchd our generator*/
+            int count = Convert.ToInt32(args[0]);
+            StreamWriter writer = new StreamWriter(args[1]);
             string format = args[2];
             string typeOfData = args[3];
 
@@ -33,7 +33,12 @@ namespace addressbook_test_data_generators
                 {
                     writeGroupsToXmlFile(groups, writer);
                 }
+                else if (format == "json")
+                {
+                    writeGroupsToJsonFile(groups, writer);
+                }
                 else
+
                 {
                     System.Console.Out.Write("Format doesnt exist");
                 }
@@ -43,7 +48,7 @@ namespace addressbook_test_data_generators
             else if (typeOfData == "cont")
             {
                 List<ContactData> contacts = GenerateConactList(count);
-                
+
                 if (format == "csv")
                 {
                     writeContatcsToCsvFile(contacts, writer);
@@ -52,6 +57,11 @@ namespace addressbook_test_data_generators
                 {
                     writeContactsToXmlFile(contacts, writer);
                 }
+                else if (format == "json")
+                {
+                    writeContactsToJsonFile(contacts, writer);
+                }
+
                 else
                 {
                     System.Console.Out.Write("Format doesnt exist");
@@ -84,8 +94,8 @@ namespace addressbook_test_data_generators
                 {
                     FirstName = TestBase.GenerateRandomString(10),
                     LastName = TestBase.GenerateRandomString(10),
-                   MobilePhone = TestBase.GenerateRandomString(10),
-                   Address = TestBase.GenerateRandomString(10),
+                    MobilePhone = TestBase.GenerateRandomString(10),
+                    Address = TestBase.GenerateRandomString(10),
                 });
             }
             return contacts;
@@ -115,6 +125,16 @@ namespace addressbook_test_data_generators
         static void writeContactsToXmlFile(List<ContactData> contacts, StreamWriter writer)
         {
             new XmlSerializer(typeof(List<ContactData>)).Serialize(writer, contacts);
+        }
+
+        static void writeGroupsToJsonFile(List<GroupData> groups, StreamWriter writer)
+        {
+            writer.Write(JsonConvert.SerializeObject(groups, Newtonsoft.Json.Formatting.Indented));
+        }
+
+        static void writeContactsToJsonFile(List<ContactData> contacts, StreamWriter writer)
+        {
+            writer.Write(JsonConvert.SerializeObject(contacts, Newtonsoft.Json.Formatting.Indented));
         }
     }
 }

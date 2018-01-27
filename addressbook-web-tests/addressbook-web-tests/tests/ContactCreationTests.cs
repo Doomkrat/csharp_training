@@ -1,11 +1,8 @@
-﻿using System;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 using System.IO;
 
 namespace WebAddressbookTests
@@ -50,13 +47,17 @@ namespace WebAddressbookTests
             return (List<ContactData>) //приведение типа
                 new XmlSerializer(typeof(List<ContactData>))//чтение данных типа List<GroupData>
                 .Deserialize(new StreamReader(@"contacts.xml"));//из указаного файла
+        }
+
+        public static IEnumerable<ContactData> ContactDataFromJsonFile()
+        {
+            return JsonConvert.DeserializeObject<List<ContactData>>(
+               File.ReadAllText(@"contacts.json"));
 
         }
 
 
-
-
-        [Test,TestCaseSource("ContactDataFromXmlFile")]
+        [Test,TestCaseSource("ContactDataFromJsonFile")]
         public void ContactCreationTest(ContactData contact)
         {
             List<ContactData> oldContacts = app.Contacts.GetContactList();

@@ -1,10 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
+﻿using System.IO;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Newtonsoft.Json;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -52,7 +49,14 @@ namespace WebAddressbookTests
 
         }
 
-        [Test, TestCaseSource("GroupDataFromXmlFile")]
+        public static IEnumerable<GroupData> GroupDataFromJsonFile()
+        {
+            return JsonConvert.DeserializeObject<List<GroupData>>(
+               File.ReadAllText(@"groups.json"));
+
+        }
+
+        [Test, TestCaseSource("GroupDataFromJsonFile")]
         public void GroupCreationTest(GroupData group)
         {
 
