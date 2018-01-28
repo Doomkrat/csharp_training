@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WebAddressbookTests;
 using System.Xml;
 using Newtonsoft.Json;
+using Excel = Microsoft.Office.Interop.Excel;
 using System.Xml.Serialization;
 
 namespace addressbook_test_data_generators
@@ -16,7 +17,7 @@ namespace addressbook_test_data_generators
         static void Main(string[] args)
         {
             int count = Convert.ToInt32(args[0]);
-            StreamWriter writer = new StreamWriter(args[1]);
+            string filename = args[1];
             string format = args[2];
             string typeOfData = args[3];
 
@@ -24,51 +25,116 @@ namespace addressbook_test_data_generators
             {
 
                 List<GroupData> groups = GenerateGroupList(count);
-
-                if (format == "csv")
+                if (format == "excel")
                 {
-                    writeGroupsToCsvFile(groups, writer);
-                }
-                else if (format == "xml")
-                {
-                    writeGroupsToXmlFile(groups, writer);
-                }
-                else if (format == "json")
-                {
-                    writeGroupsToJsonFile(groups, writer);
+                    writeGroupsToExcelFile(groups, filename);
                 }
                 else
-
                 {
-                    System.Console.Out.Write("Format doesnt exist");
-                }
+                    StreamWriter writer = new StreamWriter(args[1]);
 
-                writer.Close();
+                    if (format == "csv")
+                    {
+                        writeGroupsToCsvFile(groups, writer);
+                    }
+                    else if (format == "xml")
+                    {
+                        writeGroupsToXmlFile(groups, writer);
+                    }
+                    else if (format == "json")
+                    {
+                        writeGroupsToJsonFile(groups, writer);
+                    }
+
+                    else
+
+                    {
+                        System.Console.Out.Write("Format doesnt exist");
+                    }
+
+
+                    writer.Close();
+                }
             }
             else if (typeOfData == "cont")
             {
                 List<ContactData> contacts = GenerateConactList(count);
 
-                if (format == "csv")
+                if (format == "excel")
                 {
-                    writeContatcsToCsvFile(contacts, writer);
+                    writeContactsToExcelFile(contacts, filename);
                 }
-                else if (format == "xml")
-                {
-                    writeContactsToXmlFile(contacts, writer);
-                }
-                else if (format == "json")
-                {
-                    writeContactsToJsonFile(contacts, writer);
-                }
-
                 else
                 {
-                    System.Console.Out.Write("Format doesnt exist");
-                }
+                    StreamWriter writer = new StreamWriter(args[1]);
 
-                writer.Close();
+                    if (format == "csv")
+                    {
+                        writeContatcsToCsvFile(contacts, writer);
+                    }
+                    else if (format == "xml")
+                    {
+                        writeContactsToXmlFile(contacts, writer);
+                    }
+                    else if (format == "json")
+                    {
+                        writeContactsToJsonFile(contacts, writer);
+                    }
+
+                    else
+                    {
+                        System.Console.Out.Write("Format doesnt exist");
+                    }
+
+                    writer.Close();
+                }
             }
+        }
+
+         static void writeContactsToExcelFile(List<ContactData> contacts, string filename)
+        {
+            Excel.Application app = new Excel.Application();
+            app.Visible = true;
+            Excel.Workbook wb = app.Workbooks.Add();
+            Excel.Worksheet sheet = wb.ActiveSheet;
+            int row = 1;
+            foreach (ContactData contact in contacts)
+            {
+                sheet.Cells[row, 1] = contact.FirstName;
+                sheet.Cells[row, 2] = contact.LastName;
+                sheet.Cells[row, 3] = contact.MobilePhone;
+                sheet.Cells[row, 4] = contact.Address;
+                row++;
+            }
+            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), filename);
+            File.Delete(fullPath);
+            wb.SaveAs(fullPath);
+            wb.Close();
+            app.Visible = false;
+            app.Quit();
+        }
+
+         static void writeGroupsToExcelFile(List<GroupData> groups, string filename)
+        {
+            Excel.Application app = new Excel.Application();
+            app.Visible = true;
+            Excel.Workbook wb = app.Workbooks.Add();
+            Excel.Worksheet sheet = wb.ActiveSheet;
+
+            int row = 1;
+            foreach (GroupData group in groups)
+            {
+                sheet.Cells[row, 1] = group.Name;
+                sheet.Cells[row, 2] = group.Header;
+                sheet.Cells[row, 3] = group.Footer;
+                row++;
+            }
+            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), filename);
+            File.Delete(fullPath);
+            wb.SaveAs(fullPath);
+            wb.Close();
+            app.Visible = false;
+            app.Quit();
         }
 
         private static List<GroupData> GenerateGroupList(int count)

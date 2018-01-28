@@ -141,6 +141,7 @@ namespace WebAddressbookTests
         {
             FirstName = firstname;
             LastName = lastname;
+
         }
 
         public int CompareTo(ContactData other)
