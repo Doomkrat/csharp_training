@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LinqToDB.Mapping;
+using System.Linq;
+
 namespace WebAddressbookTests
 {
     [Table(Name = "group_list")]
@@ -66,6 +65,14 @@ namespace WebAddressbookTests
         public override string ToString()
         {
             return "name=" + Name + "\nheader= " + Header + "\nfooter=" + Footer;
+        }
+
+        public static List<GroupData> GetAll()
+        {
+             using (AddressBookDB db = new AddressBookDB())
+            {
+              return (from g in db.Groups select g).ToList();
+            }
         }
     }
 }

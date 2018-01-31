@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using Newtonsoft.Json;
-using System.Linq;
-using System.Xml;
 using System.Xml.Serialization;
 using Excel = Microsoft.Office.Interop.Excel;
 using System;
@@ -108,9 +106,7 @@ namespace WebAddressbookTests
             System.Console.Out.WriteLine(end.Subtract(start));
 
             start = DateTime.Now;
-            AddressBookDB db = new AddressBookDB();
-            List<GroupData> fromDb = (from g in db.Groups select g).ToList();
-            db.Close();
+            List<GroupData> fromDb = GroupData.GetAll();
             end = DateTime.Now;
             System.Console.Out.WriteLine(end.Subtract(start));
         }

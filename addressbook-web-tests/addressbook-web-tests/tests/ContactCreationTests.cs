@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using Newtonsoft.Json;
 using System.IO;
 using Excel = Microsoft.Office.Interop.Excel;
+using System;
 
 namespace WebAddressbookTests
 {
@@ -98,6 +99,20 @@ namespace WebAddressbookTests
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
 
+        }
+
+        [Test]
+        public void TestGDBConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<ContactData> fromUi = app.Contacts.GetContactList();
+            DateTime end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+
+            start = DateTime.Now;
+            List<ContactData> fromDb = ContactData.GetAll();
+            end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
         }
     }
 }
