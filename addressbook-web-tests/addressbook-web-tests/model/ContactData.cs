@@ -252,7 +252,7 @@ namespace WebAddressbookTests
             using (AddressBookDB db = new AddressBookDB())
             {
                 return (from c in db.Contacts.Where(x=>x.Deprecated == "0000-00-00 00:00:00")
-                        select c).Distinct().ToList();
+                        select c).ToList();
             }
         }
 

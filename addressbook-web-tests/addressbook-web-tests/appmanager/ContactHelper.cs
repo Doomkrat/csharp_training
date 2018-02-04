@@ -24,6 +24,26 @@ namespace WebAddressbookTests
             return this;
         }
 
+        internal void RemoveContactFromGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            SelectGroupToRemove(group.Name);
+            SelectContact(contact.Id);
+            CommitRemovingContactFromGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+
+        private void CommitRemovingContactFromGroup()
+        {
+            driver.FindElement(By.Name("remove")).Click();
+        }
+
+        private void SelectGroupToRemove(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(name);
+        }
+
         internal void AddContactToGroup(ContactData contact, GroupData group)
         {
             manager.Navigator.GoToHomePage();
@@ -219,11 +239,7 @@ namespace WebAddressbookTests
         public ContactHelper CreateContact(ContactData newcontact)
         {
             InitContactCreation();
-            ContactData contact = new ContactData()
-            {
-                FirstName = "Vasya",
-                LastName = "Pupkin"
-            };
+            ContactData contact = new ContactData();
             FillContactForm(contact);
             SubmitContactCreation();
             return this;
@@ -255,6 +271,38 @@ namespace WebAddressbookTests
                 }
             }
             return new List<ContactData>(contactCache);
+        }
+
+        internal void CheckAllContactsExist(GroupData group)
+        {
+            if (ContactData.GetAll().Except(group.GetContacts()).Count() == 0)
+            {
+                ContactData contact = group.GetContacts().First();
+                RemoveContactFromGroup(contact, group);
+            }
+        }
+
+        internal void CheckNoContactExist(GroupData group)
+        {
+            if (group.GetContacts().Count() == 0)
+            {
+                ContactData contact = ContactData.GetAll().First();
+                AddContactToGroup(contact, group);
+            }
+        }
+
+        public ContactHelper CheckContactExist()
+        {
+            manager.Navigator.GoToHomePage();
+
+            if (!IsElementPresent(By.XPath(".//*[@id='maintable']/tbody/tr[@name='entry']")))
+            {
+                ContactData contact = new ContactData("Firstname1", "Lastname1");
+
+                CreateContact(contact);
+            }
+
+            return this;
         }
     }
 

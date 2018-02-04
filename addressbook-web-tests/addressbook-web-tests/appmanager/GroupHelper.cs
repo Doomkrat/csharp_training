@@ -32,7 +32,7 @@ namespace WebAddressbookTests
 
         private List<GroupData> groupCache = null;
 
-        
+
         public List<GroupData> GetGroupList()
         {
             if (groupCache == null)
@@ -57,7 +57,7 @@ namespace WebAddressbookTests
                         }
                         else
                         {
-                            groupCache[i].Name = parts[i-shift].Trim();
+                            groupCache[i].Name = parts[i - shift].Trim();
 
                         }
                     }
@@ -144,7 +144,7 @@ namespace WebAddressbookTests
 
         public GroupHelper SelectGroup(string id)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='"+ id +"'])")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='" + id + "'])")).Click();
             return this;
         }
         public GroupHelper ReturnToGroupsPage()
@@ -162,6 +162,19 @@ namespace WebAddressbookTests
         public GroupHelper InitGroupModification()
         {
             driver.FindElement(By.Name("edit")).Click();
+            return this;
+        }
+
+        public GroupHelper CheckGroupExist()
+        {
+            manager.Navigator.GoToGroupsPage();
+
+            if (!IsElementPresent(By.Name("selected[]")))
+            {
+                GroupData group = new GroupData("Group1");
+
+                Create(group);
+            }
             return this;
         }
     }
