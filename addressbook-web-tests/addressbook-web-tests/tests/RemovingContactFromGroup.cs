@@ -33,7 +33,7 @@ namespace WebAddressbookTests
             newList.Sort();
             oldList.Sort();
 
-            Assert.AreEqual(oldList.Count-1, newList.Count);
+            Assert.AreEqual(oldList, newList);
         }
     }
 }
