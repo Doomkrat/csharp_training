@@ -60,8 +60,9 @@ namespace WebAddressbookTests
 
         public string AllPhones
         {
-            get {
-                if (allPhones!= null)
+            get
+            {
+                if (allPhones != null)
                 {
                     return allPhones;
                 }
@@ -70,7 +71,8 @@ namespace WebAddressbookTests
                     return (CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone)).Trim();
                 }
             }
-            set {
+            set
+            {
                 allPhones = value;
             }
         }
@@ -84,7 +86,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (EndStringInsert(Email) + EndStringInsert(Email2)  + EndStringInsert(Email3)).Trim();
+                    return (EndStringInsert(Email) + EndStringInsert(Email2) + EndStringInsert(Email3)).Trim();
                 }
             }
             set
@@ -92,17 +94,19 @@ namespace WebAddressbookTests
                 allEmails = value;
             }
         }
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
 
-        
-       
+
+
 
         private string CleanUp(string phone)
         {
-           if (phone == null || phone == "")
+            if (phone == null || phone == "")
             {
                 return "";
             }
-            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "")+"\r\n";
+            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
         }
 
 
@@ -215,7 +219,7 @@ namespace WebAddressbookTests
         }
 
 
-     
+
         private string ContactInfoList(string firstname, string lastname, string address)
         {
             return EndStringInsert(GetNameFull(firstname, lastname))
@@ -247,7 +251,8 @@ namespace WebAddressbookTests
         {
             using (AddressBookDB db = new AddressBookDB())
             {
-                return (from g in db.Contacts select g).ToList();
+                return (from c in db.Contacts.Where(x=>x.Deprecated == "0000-00-00 00:00:00")
+                        select c).Distinct().ToList();
             }
         }
 

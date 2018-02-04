@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
-using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 using System.IO;
@@ -10,7 +9,7 @@ using System;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactCreationTests : AuthTestBase
+    public class ContactCreationTests : ContactTestBase
     {
         public static IEnumerable<ContactData> RandomContactDataProvider()
         {
@@ -86,7 +85,7 @@ namespace WebAddressbookTests
         [Test,TestCaseSource("ContactDataFromExcelFile")]
         public void ContactCreationTest(ContactData contact)
         {
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
             app.Contacts.InitContactCreation();
             app.Contacts.FillContactForm(contact);
             app.Contacts.SubmitContactCreation();

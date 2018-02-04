@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 using OpenQA.Selenium;
 
-namespace WebAddressbookTests.tests
+namespace WebAddressbookTests
 {
     [TestFixture]
-   public class ContactModificationTests : AuthTestBase
+   public class ContactModificationTests : ContactTestBase
     {
         [Test]
         public void ContactMofifcationTest()
@@ -28,21 +24,34 @@ namespace WebAddressbookTests.tests
                 FirstName = "Jonny",
                 LastName = "Mnemonik"
             };
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
-            ContactData oldData = oldContacts[0];
-            app.Contacts.Modify(newData);
+            List<ContactData> oldContacts = ContactData.GetAll();
+            foreach (ContactData contact in oldContacts)
+            { System.Console.Out.WriteLine("old " + contact.FirstName + " " + contact.LastName); }
+            ContactData toBeModified = oldContacts[0];
+
+            app.Contacts.Modify(newData, toBeModified);
+
             Assert.AreEqual(oldContacts.Count, app.Contacts.GetContactCount());
-            List<ContactData> newContacts = app.Contacts.GetContactList();
+
+            List<ContactData> newContacts = ContactData.GetAll();
+            foreach (ContactData contact in newContacts)
+            { System.Console.Out.WriteLine("new " + contact.FirstName + " " + contact.LastName); }
+
             oldContacts[0] = newData;
+            foreach (ContactData contact in oldContacts)
+            { System.Console.Out.WriteLine("oldmodified " + contact.FirstName + " " + contact.LastName); }
+
             oldContacts.Sort();
             newContacts.Sort();
+
             Assert.AreEqual(oldContacts, newContacts);
 
-            foreach(ContactData contact in newContacts)
+            foreach (ContactData contact in newContacts)
             {
-                if (contact.Id == oldData.Id)
+                if (contact.Id == toBeModified.Id)
                 {
-                    Assert.AreEqual(newData,contact);
+                    Assert.AreEqual(newData.FirstName, contact.FirstName);
+                    Assert.AreEqual(newData.LastName, contact.LastName);
                 }
             }
 

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace WebAddressbookTests.tests
 {
     [TestFixture]
-   public class ContactRemovalTests : AuthTestBase
+   public class ContactRemovalTests : ContactTestBase
     {
         [Test]
         public void ContactRemovalTest()
@@ -23,11 +19,11 @@ namespace WebAddressbookTests.tests
                 };
                 app.Contacts.CreateContact(name);
             }
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
-            app.Contacts.Remove();
-            Assert.AreEqual(oldContacts.Count-1, app.Contacts.GetContactCount());
-            List<ContactData> newContacts = app.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
             ContactData toBeRemoved = oldContacts[0];
+            app.Contacts.Remove(toBeRemoved);
+            Assert.AreEqual(oldContacts.Count-1, app.Contacts.GetContactCount());
+            List<ContactData> newContacts = ContactData.GetAll();
             oldContacts.RemoveAt(0);
             Assert.AreEqual(oldContacts, newContacts);
             foreach (ContactData contact in newContacts)

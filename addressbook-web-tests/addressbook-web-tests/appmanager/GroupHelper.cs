@@ -77,6 +77,17 @@ namespace WebAddressbookTests
             return this;
         }
 
+        internal GroupHelper Modify(GroupData group, GroupData newData)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(group.Id);
+            InitGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
+            return this;
+        }
+
 
 
         public GroupHelper Remove()

@@ -7,10 +7,10 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 
 
-namespace WebAddressbookTests.tests
+namespace WebAddressbookTests
 {
     [TestFixture]
-   public class GroupModificationTests : AuthTestBase
+   public class GroupModificationTests : GroupTestBase
     {
      
 
@@ -25,16 +25,17 @@ namespace WebAddressbookTests.tests
                 group.Footer = GenerateRandomString(10);
                 app.Groups.Create(group);
             }
+            List<GroupData> oldGroups = GroupData.GetAll();
             GroupData newData = new GroupData(GenerateRandomString(10));
             newData.Header = GenerateRandomString(10);
             newData.Footer = GenerateRandomString(10);
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
-            GroupData oldData = oldGroups[0];
+            
 
-            app.Groups.Modify(newData);
+            GroupData toBeModified = oldGroups[0];
+            app.Groups.Modify(toBeModified,newData);
             Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups[0].Name = newData.Name;
             oldGroups.Sort();
             newGroups.Sort();
@@ -42,7 +43,7 @@ namespace WebAddressbookTests.tests
 
             foreach(GroupData group in newGroups)
             {
-                if (group.Id == oldData.Id)
+                if (group.Id == toBeModified.Id)
                 {
                     Assert.AreEqual(newData.Name, group.Name);
                 }
