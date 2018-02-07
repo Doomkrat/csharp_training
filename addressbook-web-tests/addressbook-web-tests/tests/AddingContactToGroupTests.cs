@@ -15,6 +15,7 @@ namespace WebAddressbookTests
             app.Groups.CheckGroupExist();
             app.Contacts.CheckContactExist();
         }
+         
 
         [Test]
         public void TestAddingContactToGroup()
