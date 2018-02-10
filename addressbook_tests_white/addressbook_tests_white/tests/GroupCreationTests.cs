@@ -18,6 +18,8 @@ namespace addressbook_tests_white
             };
             app.Groups.Add(newGroup);
 
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
+
             List<GroupData> newGroups = app.Groups.GetGroupList();
 
             oldGroups.Add(newGroup);
