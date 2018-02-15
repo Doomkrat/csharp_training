@@ -13,11 +13,11 @@ namespace mantis_tests
         [OneTimeSetUp]
         public void setUpConfig()
         {
-            //@"C:\xampp\htdocs\mantisbt-2.11.1\config_defaults_inc.php"
-            app.Ftp.BackupFile(@"C:\xampp\htdocs\mantisbt-2.11.1\config\config_inc.php");
-            using (Stream localFile = File.Open(@"C:\xampp\htdocs\mantisbt-2.11.1\config\config_inc.php", FileMode.Open))
+            var currentdir = TestContext.CurrentContext.WorkDirectory;
+            app.Ftp.BackupFile($"{currentdir}/config_inc.php");
+            using (Stream localFile = File.Open($"{currentdir}/config_inc.php", FileMode.Open))
             {
-                app.Ftp.Upload("/config_inc.php", localFile);
+                app.Ftp.Upload(("/config_inc.php"), localFile);
             }
         }
 
