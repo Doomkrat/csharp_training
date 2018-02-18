@@ -27,11 +27,12 @@ namespace mantis_tests
         {
             AccountData account = new AccountData()
             {
-                Name = "testuser",
+                Name = "gogi",
                 Password = "password",
-                Email = "testuser@localhost.localdomain"
+                Email = "someuser1988@somedomain.com"
             };
             app.Registration.Register(account);
+
         }
 
         [OneTimeTearDown]

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 
@@ -18,6 +19,7 @@ namespace mantis_tests.tests
             OpenRegistrationForm();
             FillRegistrationForm(account);
             SubmitRegistration();
+            Thread.Sleep(10000);
         }
 
         private void OpenRegistrationForm()

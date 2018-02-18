@@ -16,7 +16,7 @@ namespace mantis_tests
         protected IWebDriver driver;
         public string baseURL;
 
-        public RegistrationHelper Registration { get; }
+       
 
         private new static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
@@ -29,6 +29,9 @@ namespace mantis_tests
             baseURL = "http://localhost";
             Registration = new RegistrationHelper(this);
             Ftp = new FtpHelper(this);
+            Progects = new ProgectManagmentHelper(this);
+            Auth = new LoginHelper(this);
+            Navigation = new NavigationHelper(this);
         }
 
          ~ApplicationManager()
@@ -64,8 +67,11 @@ namespace mantis_tests
             }
         }
 
-       
+        public RegistrationHelper Registration { get; }
         public FtpHelper Ftp { get; set; }
+        public ProgectManagmentHelper Progects { get; set; }
+        public LoginHelper Auth { get; set; }
+        public NavigationHelper Navigation { get; private set; }
 
     }
 }
