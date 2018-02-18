@@ -27,7 +27,7 @@ namespace mantis_tests.tests
 
         void SubmitRegistration()
         {
-            throw new NotImplementedException();
+            driver.FindElement(By.CssSelector("input.width-40.pull-right")).Click();
         }
 
         void FillRegistrationForm(AccountData account)
