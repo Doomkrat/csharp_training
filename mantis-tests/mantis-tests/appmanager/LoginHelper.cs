@@ -23,7 +23,7 @@ namespace mantis_tests
                 }
                 Logout();
             }
-            manager.Navigation.OpenMainPage();
+            manager.Navigator.OpenMainPage();
             Type(By.Id("username"), account.Name);
             driver.FindElement(By.CssSelector(".btn-success")).Click();
             Type(By.Id("password"), account.Password);
@@ -35,7 +35,7 @@ namespace mantis_tests
             if (IsLoggedIn())
             {
                 driver.FindElement(By.XPath("//div[@id='navbar-container']/div[2]/ul/li[3]/a/i[2]")).Click();
-                driver.FindElement(By.LinkText("выход")).Click();
+                driver.FindElement(By.LinkText("exit")).Click();
             }
         }
 

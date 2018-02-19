@@ -13,13 +13,15 @@ namespace mantis_tests.tests
         [Test]
         public void ProgectCreateonTest()
         {
-            List<ProgectData> oldProgects = app.Progects.GetProgectList();
 
             ProgectData progect = new ProgectData()
             {
                 Name = $"Progect{DateTime.Now.Ticks}",
                 Description = "somedescription"
             };
+
+            app.Progects.DeleteIfSuchProgectExist(progect);
+            List<ProgectData> oldProgects = app.Progects.GetProgectList();
 
             app.Progects.Create(progect);
 

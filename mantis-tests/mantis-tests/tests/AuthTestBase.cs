@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace mantis_tests.tests
+namespace mantis_tests
 {
-    class AuthTestBase:TestBase
+    public class AuthTestBase:TestBase
     {
         internal AccountData account = new AccountData()
         {

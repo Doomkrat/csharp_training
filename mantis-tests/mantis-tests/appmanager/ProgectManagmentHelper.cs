@@ -13,25 +13,86 @@ namespace mantis_tests
     {
         public ProgectManagmentHelper(ApplicationManager manager) : base(manager) { }
 
-        internal void Create(ProgectData progect)
+        public void SubmitProgectCreation()
         {
-            manager.Navigation.OpenManagmentMenu();
-            manager.Navigation.GoToProgectTab();
-            driver.FindElements(By.CssSelector("button.btn.btn-primary"))[0].Click();
-            driver.FindElement(By.Id("project-name")).Clear();
-            driver.FindElement(By.Id("project-name")).SendKeys(progect.Name);
-            driver.FindElement(By.Id("project-description")).Clear();
-            driver.FindElement(By.Id("project-description")).SendKeys(progect.Description);
+           
             driver.FindElement(By.CssSelector("div.widget-toolbox input.btn-primary")).Click();
-            //driver.FindElement(By.LinkText("Proceed")).Click();
+            driver.FindElement(By.LinkText("Proceed")).Click();
         }
 
+        public void CreateIfNoProgectsPresent()
+         {
+             manager.Navigator.GoToProgectTab();
+ 
+             if (!IsElementPresent(By.XPath("//table[1]/tbody/tr")))
+             {
+                 ProgectData progect = new ProgectData()
+                 {
+                     Name = $"Progect{DateTime.Now.Ticks}",
+                     Description = ""
+                 };
+ 
+                 Create(progect);
+             }
+ 
+         }
+ 
+         public void Create(ProgectData progect)
+         {
+             manager.Navigator.GoToProgectTab();
+             InitProgectCreation();
+             FillProgectForm(progect);
+             SubmitProgectCreation();
+         }
+        public void InitProgectCreation()
+         {
+            driver.FindElement(By.CssSelector("button.btn.btn-primary.btn-white.btn-round")).Click();
+         }
+ 
+         public void FillProgectForm(ProgectData progect)
+         {
+             Type(By.Id("project-name"), progect.Name);
+             Type(By.Id("project-description"), progect.Description);
+         }
+ 
+         public void Remove(ProgectData progect)
+         {
+             manager.Navigator.GoToProgectTab();
+             OpenEditPage(progect.Name);
+             RemoveProgect();
+             SubmitProgectRemove();
+         }
+ 
+         public void OpenEditPage(String name)
+         {
+             driver.FindElement(By.LinkText(name)).Click();
+         }
+ 
+         public void RemoveProgect()
+         {
+             driver.FindElement(By.CssSelector("form#project-delete-form input.btn")).Click();
+         }
+ 
+         public void SubmitProgectRemove()
+         {
+             driver.FindElement(By.CssSelector("div.alert-warning .btn")).Click();
+         }
+ 
+         public void DeleteIfSuchProgectExist(ProgectData progect)
+         {
+             manager.Navigator.GoToProgectTab();
+ 
+             if (IsElementPresent(By.XPath("//table[1]/tbody/tr/td[1]/a[.='"+ progect.Name + "']")))
+             {
+                 Remove(progect);
+             }
+         }
 
-        internal List<ProgectData> GetProgectList()
+
+        public List<ProgectData> GetProgectList()
         {
             List<ProgectData> list = new List<ProgectData>();
-            manager.Navigation.OpenManagmentMenu();
-            manager.Navigation.GoToProgectTab();
+            manager.Navigator.GoToProgectTab();
             ICollection<IWebElement> elements = driver.FindElements(By.CssSelector(".table"))[0]
                 .FindElements(By.CssSelector("tbody>tr"));
             foreach (IWebElement element in elements)
@@ -45,10 +106,9 @@ namespace mantis_tests
             return list;
         }
 
-        internal int GetProgectCount()
+        public int GetProgectCount()
         {
-            manager.Navigation.OpenManagmentMenu();
-            manager.Navigation.GoToProgectTab();
+            manager.Navigator.GoToProgectTab();
             return driver.FindElements(By.CssSelector(".table"))[0]
                 .FindElements(By.CssSelector("tbody>tr"))
                 .Count();

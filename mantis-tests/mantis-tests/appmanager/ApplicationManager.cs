@@ -31,7 +31,7 @@ namespace mantis_tests
             Ftp = new FtpHelper(this);
             Progects = new ProgectManagmentHelper(this);
             Auth = new LoginHelper(this);
-            Navigation = new NavigationHelper(this);
+            Navigator = new NavigationHelper(this);
         }
 
          ~ApplicationManager()
@@ -71,7 +71,7 @@ namespace mantis_tests
         public FtpHelper Ftp { get; set; }
         public ProgectManagmentHelper Progects { get; set; }
         public LoginHelper Auth { get; set; }
-        public NavigationHelper Navigation { get; private set; }
+        public NavigationHelper Navigator { get; private set; }
 
     }
 }
