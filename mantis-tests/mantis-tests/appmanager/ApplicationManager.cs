@@ -16,10 +16,7 @@ namespace mantis_tests
         protected IWebDriver driver;
         public string baseURL;
 
-       
-
         private new static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
-
         private ApplicationManager()
         {
             FirefoxOptions options = new FirefoxOptions();
@@ -56,9 +53,6 @@ namespace mantis_tests
                 ApplicationManager newInstance = new ApplicationManager();
                 newInstance.driver.Url= newInstance.baseURL + "/login_page.php";
                 app.Value = newInstance;
-                
-
-
             }
             return app.Value;
         }

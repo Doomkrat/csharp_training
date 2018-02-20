@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 using SimpleBrowser.WebDriver;
 using System.Text.RegularExpressions;
+using OpenQA.Selenium.Firefox;
 
 namespace mantis_tests
 {
@@ -23,7 +24,8 @@ namespace mantis_tests
             List<AccountData> accounts = new List<AccountData>();
             IWebDriver driver = OpenAppAndLogin();
             driver.Url = baseUrl + "/manage_user_page.php";
-            IList<IWebElement> rows = driver.FindElements(By.CssSelector("table tr.row-1, table tr.row-2"));
+            IList<IWebElement> rows = driver.FindElement(By.CssSelector("table.table.table-striped.table-bordered." +
+                "table-condensed.table-hover")).FindElements(By.XPath(".//tbody/tr"));
             foreach(IWebElement row in rows)
             {
               IWebElement link =  row.FindElement(By.TagName("a"));
@@ -50,7 +52,12 @@ namespace mantis_tests
 
         private IWebDriver OpenAppAndLogin()
         {
-            IWebDriver driver = new SimpleBrowserDriver();
+            FirefoxOptions options = new FirefoxOptions();
+            options.AddArguments("headless", "disable-gpu", "remote-debugging-port=9222", "window-size=1440,900",
+                "disable-infobars", "--disable-extensions");
+            options.BrowserExecutableLocation = @"C:\temp\firefox-sdk\bin\firefox.exe";
+            options.UseLegacyImplementation = true;
+            driver = new FirefoxDriver(options);
             driver.Url = baseUrl + "/login_page.php";
             driver.FindElement(By.CssSelector("input#username")).SendKeys("administrator");
             driver.FindElement(By.CssSelector("input.width-40.pull-right.btn.btn-success.btn-inverse.bigger-110")).Click();

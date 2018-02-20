@@ -28,9 +28,9 @@ namespace mantis_tests
 
             AccountData account = new AccountData()
             {
-                Name = "gogi2",
+                Name = "gogi5",
                 Password = "password",
-                Email = "someuser1989@somedomain.com"
+                Email = "someuser11989@somedomain.com"
             };
             List<AccountData> accounts = app.Admin.GetAllAccounts();
             AccountData existingAccount = accounts.Find(x => x.Name == account.Name);
