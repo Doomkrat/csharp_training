@@ -54,6 +54,7 @@ namespace mantis_tests
             driver.Url = baseUrl + "/login_page.php";
             driver.FindElement(By.CssSelector("input#username")).SendKeys("administrator");
             driver.FindElement(By.CssSelector("input.width-40.pull-right.btn.btn-success.btn-inverse.bigger-110")).Click();
+
             driver.FindElement(By.Name("password")).SendKeys("root");
             driver.FindElement(By.CssSelector("input.width-40.pull-right.btn")).Click();
 
