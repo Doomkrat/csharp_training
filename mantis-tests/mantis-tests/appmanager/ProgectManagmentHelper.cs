@@ -20,7 +20,7 @@ namespace mantis_tests
             driver.FindElement(By.LinkText("Proceed")).Click();
         }
 
-        public void CreateIfNoProgectsPresent()
+        public void CreateIfNoProjectsPresent()
          {
              manager.Navigator.GoToProgectTab();
  
@@ -89,7 +89,7 @@ namespace mantis_tests
          }
 
 
-        public List<ProgectData> GetProgectList()
+        public List<ProgectData> GetProjectList()
         {
             List<ProgectData> list = new List<ProgectData>();
             manager.Navigator.GoToProgectTab();
@@ -106,7 +106,7 @@ namespace mantis_tests
             return list;
         }
 
-        public int GetProgectCount()
+        public int GetProjectCount()
         {
             manager.Navigator.GoToProgectTab();
             return driver.FindElements(By.CssSelector(".table"))[0]

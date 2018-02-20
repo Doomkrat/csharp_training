@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
+using System.Text.RegularExpressions;
 
 namespace mantis_tests.tests
 {
@@ -19,6 +20,26 @@ namespace mantis_tests.tests
             OpenRegistrationForm();
             FillRegistrationForm(account);
             SubmitRegistration();
+            String url = GetConfirmationUrl(account);
+            FillPPasswordForm(url);
+            SubmitPasswordForm();
+        }
+
+        private void SubmitPasswordForm()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void FillPPasswordForm(string url)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string GetConfirmationUrl(AccountData account)
+        {
+            String message = manager.Mail.GetLastMail(account);
+            Match match = Regex.Match(message, @"http://\S*");
+            return match.Value;
         }
 
         private void OpenRegistrationForm()
