@@ -24,7 +24,7 @@ namespace mantis_tests
 
         }
 
-        public void GoToProgectTab()
+        public void GoToProjectTab()
         {
             OpenManagmentMenu();
             if (!IsElementPresent(By.XPath("//div[@id='main-container']/div[2]/div[2]/div" +

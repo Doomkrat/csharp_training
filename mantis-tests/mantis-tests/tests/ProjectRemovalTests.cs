@@ -14,13 +14,18 @@ namespace mantis_tests
         [SetUp]
          public void SetupAppProgectRemovalTest()
          {
-             app.Projects.CreateIfNoProjectsPresent();
-         }
- 
-         [Test]
+            ProjectData project = new ProjectData()
+            {
+                Name = "Progect1",
+            };
+
+            app.Projects.CreateIfNoProjectsPresent(account, project);
+        }
+
+        [Test]
          public void ProjectRemovalTest()
          {
-             List<ProjectData> oldProjects = app.Projects.GetProjectList();
+             List<ProjectData> oldProjects = app.Projects.GetProjectList(account);
  
              ProjectData toBeRemoved = oldProjects[0];
  
@@ -28,7 +33,7 @@ namespace mantis_tests
  
              Assert.AreEqual(oldProjects.Count - 1, app.Projects.GetProjectCount());
  
-             List<ProjectData> newProjects = app.Projects.GetProjectList();
+             List<ProjectData> newProjects = app.Projects.GetProjectList(account);
  
              oldProjects.RemoveAt(0);
  

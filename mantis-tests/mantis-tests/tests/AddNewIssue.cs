@@ -16,12 +16,12 @@ namespace mantis_tests
             AccountData account = new AccountData()
             {
                 Name = "administrator",
-                Password = "password"
+                Password = "root"
             };
 
             ProjectData project = new ProjectData()
             {
-                Id = "1"
+                Id = "2"
             };
 
             IssueData issue = new IssueData()
@@ -29,8 +29,9 @@ namespace mantis_tests
                 Summary = "some short text",
                 Description = "some long text",
                 Category = "General"
+               
             };
-            app.API.CreateNewIssue(account,project,issue);
+            app.API.CreateNewIssue(account, project, issue);
         }
     }
 }

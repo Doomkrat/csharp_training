@@ -31,8 +31,8 @@ namespace mantis_tests
  
          public override string ToString()
          {
-             return "project name = <" + Name + ">";
-         }
+            return "project Id = <" + Id + ">" + "project name = <" + Name + ">";
+        }
  
          public int CompareTo(ProjectData other)
          {
