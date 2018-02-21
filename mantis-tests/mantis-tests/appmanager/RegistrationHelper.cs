@@ -21,18 +21,20 @@ namespace mantis_tests.tests
             FillRegistrationForm(account);
             SubmitRegistration();
             String url = GetConfirmationUrl(account);
-            FillPPasswordForm(url);
+            FillPPasswordForm(url, account);
             SubmitPasswordForm();
         }
 
         private void SubmitPasswordForm()
         {
-            throw new NotImplementedException();
+            driver.FindElement(By.CssSelector("input.width-40.pull-right")).Click();
         }
 
-        private void FillPPasswordForm(string url)
+        private void FillPPasswordForm(string url, AccountData account)
         {
-            throw new NotImplementedException();
+            driver.Url = url;
+            driver.FindElement(By.Name("password")).SendKeys(account.Password);
+            driver.FindElement(By.Name("password_confirm")).SendKeys(account.Password);
         }
 
         private string GetConfirmationUrl(AccountData account)

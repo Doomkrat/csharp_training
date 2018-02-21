@@ -11,23 +11,23 @@ namespace mantis_tests.tests
     class ProjectCreationTests : AuthTestBase
     {
         [Test]
-        public void ProgectCreateonTest()
+        public void ProgectCreationTest()
         {
 
-            ProgectData progect = new ProgectData()
+            ProjectData progect = new ProjectData()
             {
                 Name = $"Progect{DateTime.Now.Ticks}",
                 Description = "somedescription"
             };
 
             app.Projects.DeleteIfSuchProgectExist(progect);
-            List<ProgectData> oldProgects = app.Projects.GetProjectList();
+            List<ProjectData> oldProgects = app.Projects.GetProjectList();
 
             app.Projects.Create(progect);
 
             Assert.AreEqual(oldProgects.Count + 1, app.Projects.GetProjectCount());
 
-            List<ProgectData> newProgects = app.Projects.GetProjectList();
+            List<ProjectData> newProgects = app.Projects.GetProjectList();
 
             oldProgects.Add(progect);
             oldProgects.Sort();

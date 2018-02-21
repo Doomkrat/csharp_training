@@ -32,6 +32,7 @@ namespace mantis_tests
             Admin = new AdminHelper(this, baseURL);
             James = new JamesHelper(this);
             Mail = new MailHelper(this);
+            API = new APIHelper(this);
         }
 
          ~ApplicationManager()
@@ -72,5 +73,6 @@ namespace mantis_tests
         public AdminHelper Admin { get; private set; }
         public JamesHelper James { get; private set; }
         public MailHelper Mail { get; private set; }
+        public APIHelper API { get; private set; }
     }
 }

@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace mantis_tests
 {
-    public class ProgectData : IEquatable<ProgectData>, IComparable<ProgectData>
+    public class ProjectData : IEquatable<ProjectData>, IComparable<ProjectData>
     {
         public string Name { get; set; }
          public string Description { get; set; }
+        public string Id { get; set; }
+
+        public ProjectData()
+        {
+        }
  
-         public ProgectData()
-         {
-         }
- 
-         public bool Equals(ProgectData other)
+         public bool Equals(ProjectData other)
          {
              if (Object.ReferenceEquals(other, null))
              {
@@ -33,7 +34,7 @@ namespace mantis_tests
              return "project name = <" + Name + ">";
          }
  
-         public int CompareTo(ProgectData other)
+         public int CompareTo(ProjectData other)
          {
              if (Object.ReferenceEquals(other, null))
              {

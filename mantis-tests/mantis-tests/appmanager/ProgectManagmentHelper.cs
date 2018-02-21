@@ -26,7 +26,7 @@ namespace mantis_tests
  
              if (!IsElementPresent(By.XPath("//table[1]/tbody/tr")))
              {
-                 ProgectData progect = new ProgectData()
+                 ProjectData progect = new ProjectData()
                  {
                      Name = $"Progect{DateTime.Now.Ticks}",
                      Description = ""
@@ -37,7 +37,7 @@ namespace mantis_tests
  
          }
  
-         public void Create(ProgectData progect)
+         public void Create(ProjectData progect)
          {
              manager.Navigator.GoToProgectTab();
              InitProgectCreation();
@@ -49,13 +49,13 @@ namespace mantis_tests
             driver.FindElement(By.CssSelector("button.btn.btn-primary.btn-white.btn-round")).Click();
          }
  
-         public void FillProgectForm(ProgectData progect)
+         public void FillProgectForm(ProjectData progect)
          {
              Type(By.Id("project-name"), progect.Name);
              Type(By.Id("project-description"), progect.Description);
          }
  
-         public void Remove(ProgectData progect)
+         public void Remove(ProjectData progect)
          {
              manager.Navigator.GoToProgectTab();
              OpenEditPage(progect.Name);
@@ -78,7 +78,7 @@ namespace mantis_tests
              driver.FindElement(By.CssSelector("div.alert-warning .btn")).Click();
          }
  
-         public void DeleteIfSuchProgectExist(ProgectData progect)
+         public void DeleteIfSuchProgectExist(ProjectData progect)
          {
              manager.Navigator.GoToProgectTab();
  
@@ -89,15 +89,15 @@ namespace mantis_tests
          }
 
 
-        public List<ProgectData> GetProjectList()
+        public List<ProjectData> GetProjectList()
         {
-            List<ProgectData> list = new List<ProgectData>();
+            List<ProjectData> list = new List<ProjectData>();
             manager.Navigator.GoToProgectTab();
             ICollection<IWebElement> elements = driver.FindElements(By.CssSelector(".table"))[0]
                 .FindElements(By.CssSelector("tbody>tr"));
             foreach (IWebElement element in elements)
             {
-                list.Add(new ProgectData()
+                list.Add(new ProjectData()
                 {
                     Name = element.FindElements(By.CssSelector("td"))[0].Text,
                     Description = element.FindElements(By.CssSelector("td"))[4].Text
